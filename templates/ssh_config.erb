@@ -1,0 +1,9 @@
+Host *
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
+    ForwardAgent <%= @forwardagent %>
+<% if @extrarules and ! Array(@extrarules).empty? -%>
+    <%= Array(@extrarules).join("\n    ") %>
+<% end -%>

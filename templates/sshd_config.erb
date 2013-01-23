@@ -1,0 +1,29 @@
+# SSHd configuration.
+# See the sshd(8) manpage for details.
+
+## Non-default settings
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
+Protocol 2
+UsePAM <%= @usepam %>
+ChallengeResponseAuthentication no
+
+## Security
+PermitRootLogin <%= @permitrootlogin %>
+
+## Connections
+ListenAddress <%= @ipaddress %>:22
+<% if @listenipports and ! @listenipports.empty? -%>
+<%   Array(@listenipports).sort.each do |key,value| -%>
+# Listen for <%= key %>
+ListenAddress <%= value %>
+<%   end -%>
+<% end -%>
+
+## X11 options
+X11Forwarding <%= x11forwarding %>
+
+<% if @extrarules and ! Array(@extrarules).empty? -%>
+## Extra Conditions
+<%= @extrarules.join("\n") %>
+<% end -%>
